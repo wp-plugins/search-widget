@@ -280,6 +280,12 @@ abstract class Hoverboard_Widget extends WP_Widget {
             ;
         }
 
+        // Wrap HTML in paragraph tags.
+        //
+        if ( ! empty ( $html ) ) {
+            $html = "<p>{$html}</p>";
+        }
+
         return $html;
 
     }
