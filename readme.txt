@@ -13,6 +13,19 @@ A basic search widget for WordPress sites with extended filters.
 == Description ==
 
 Extend the search widget to allow for a variety of filters on which elements of the site should be searched.
+The filters are defined on the admin panel when setting up the widget and cannot be changed by the user.
+The user only sees the standard WordPress search box preceded by a title you enter.
+
+= Post Filters=
+
+* Category Slug
+* Tag Slug
+
+= Page Filters
+
+* Parent Page ID
+
+= Development Requests =
 
 This is currently the initial release and still in active development.  It is published on the WP directory as a functional plugin but still in its infancy.  More features are coming soon.
 
