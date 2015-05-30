@@ -4,7 +4,7 @@
  * Plugin URI: http://www.hoverboard.tools/product/search-widget/
  * Description: A basic search widget for WordPress sites.
  * Author: Charleston Software Associates
- * Version: 4.2.03
+ * Version: 4.2.04
  * Author URI: http://www.charlestonsw.com
  * License: GPL2+
  * Text Domain: searchwidget
@@ -13,7 +13,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly, dang hackers
 
-define( 'SEARCHWIDGET_VERSION'      ,   '4.2.03'                        );
+define( 'SEARCHWIDGET_VERSION'      ,   '4.2.04'                        );
 define( 'SEARCHWIDGET__PLUGIN_DIR'  ,   plugin_dir_path( __FILE__ )     );
 define( 'SEARCHWIDGET__PLUGIN_FILE' ,   __FILE__                        );
 define( 'SEARCHWIDGET_HAPI_DIR'     , SEARCHWIDGET__PLUGIN_DIR . 'hapi/'    );

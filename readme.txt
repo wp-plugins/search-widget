@@ -5,7 +5,7 @@ Donate link: http://www.hoverboard.tools/product/search-widget/
 Tags: search widget, search
 Requires at least: 3.8
 Tested up to: 4.2.2
-Stable tag: 4.2.03
+Stable tag: 4.2.04
 License: GLPv2 or later
 
 A basic search widget for WordPress sites with extended filters.
@@ -16,12 +16,16 @@ Extend the search widget to allow for a variety of filters on which elements of 
 The filters are defined on the admin panel when setting up the widget and cannot be changed by the user.
 The user only sees the standard WordPress search box preceded by a title you enter.
 
-= Post Filters=
+= Post or Page Filters =
+
+* Author ID
+
+= Post Filters =
 
 * Category Slug
 * Tag Slug
 
-= Page Filters
+= Page Filters =
 
 * Parent Page ID
 
@@ -56,13 +60,20 @@ _Feed the coders.  Get on Hoverboard._
 
 == Screenshots ==
 
-1. Search Widget 4.2.02 Admin Interface
+1. Search Widget 4.2.04 Admin Interface
 
 == Changelog ==
+
+= 4.2.04 =
+
+* Add author ID filter.
+* Fix: do not set int fields to 0 if they are blank in the instance request.
+* Fix: only set filter fields if they are not blank, passing in filter fields, even if blank, can throw of WP_Query.
 
 = 4.2.03 =
 
 * Add ability to filter on category slug.
+* Add tag slug filter.
 
 = 4.2.02 =
 
