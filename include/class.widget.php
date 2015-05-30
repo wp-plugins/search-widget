@@ -67,7 +67,7 @@ class SearchWidget_Widget extends Hoverboard_Widget {
         $hidden_fields = wp_nonce_field( 'search_widget' , 'search_widget_nonce' );
 
         foreach ( $this->filter_fields as $field_slug => $field_properties ) {
-            if ( isset( $instance[ $field_slug ] ) ) {
+            if ( isset( $instance[ $field_slug ] ) && ! empty( $instance[ $field_slug ] ) ) {
                 $hidden_fields .=
                     "<input type='hidden' id='{$field_slug}' name='{$field_slug}' value='{$instance[ $field_slug ]}' /> ";
             }
@@ -192,9 +192,18 @@ class SearchWidget_Widget extends Hoverboard_Widget {
                 // If invalid, obliterate the new query var setting
                 //
                 if ( isset( $field_properties['var_type'] ) ) {
-                    if ( ! settype( $to_be_saved[ $field_slug ] , $field_properties['var_type'] ) ) {
-                        unset( $to_be_saved[ $field_slug ] );
+
+                    // Do not force empty integer fields to blank.
+                    //
+                    // Integer fields that are NOT blank, force to int.
+                    // String fields always force to string.
+                    //
+                    if ( ( $field_properties['var_type'] !== 'integer' ) || ! empty( $to_be_saved[ $field_slug ] ) ) {
+                        if ( ! settype( $to_be_saved[ $field_slug ] , $field_properties['var_type'] ) ) {
+                            unset( $to_be_saved[ $field_slug ] );
+                        }
                     }
+
                 }
             }
         }
@@ -211,7 +220,16 @@ class SearchWidget_Widget extends Hoverboard_Widget {
         //
         $help_link = 'http://hoverboard.tools/product/search-widget/';
 
-        // - POSTS
+        // author : int, id of author
+        //
+        // fetches search matches for posts or pages by the cited author ID
+        //
+        $this->filter_fields['author'] = array(
+            'label'     => __( 'Author ID' , 'searchwidget' )                                                               ,
+            'help_link' => $help_link ,
+            'help_text' => __( "Limit searches to posts or pages by the author ID. (number)" , 'searchwidget' )  ,
+            'var_type'  => 'integer'
+        );
 
         // category_name : string, slug of category
         //
@@ -220,9 +238,18 @@ class SearchWidget_Widget extends Hoverboard_Widget {
         $this->filter_fields['category_name'] = array(
             'label'     => __( 'Category Slug' , 'searchwidget' )                                                               ,
             'help_link' => $help_link ,
-            'help_text' => __( "Enter a post category slug to limit searches to that category and it's children." , 'searchwidget' )  ,
+            'help_text' => __( "Enter a post category slug to limit searches to that category and it's children.  (text)" , 'searchwidget' )  ,
             'var_type'  => 'string'
         );
+
+        // post_parent : blank = everything, 0 = top pages only, # = under that specific post id
+        //
+        $this->filter_fields['post_parent'] = array(
+            'label'     => __( 'Parent ID' , 'searchwidget' )                                                               ,
+            'help_link' => $help_link ,
+            'help_text' => __( 'Enter a parent page ID to limit search results to children of this ID.  (number)' , 'searchwidget' )  ,
+            'var_type'  => 'integer'
+            );
 
         // tag : string, slug of tag
         //
@@ -231,20 +258,9 @@ class SearchWidget_Widget extends Hoverboard_Widget {
         $this->filter_fields['tag'] = array(
             'label'     => __( 'Tag Slug' , 'searchwidget' )                                                               ,
             'help_link' => $help_link ,
-            'help_text' => __( "Enter a post tag slug to limit searches to that tag." , 'searchwidget' )  ,
+            'help_text' => __( "Enter a post tag slug to limit searches to that tag. (text)" , 'searchwidget' )  ,
             'var_type'  => 'string'
         );
-
-        // - PAGES
-
-        // post_parent : blank = everything, 0 = top pages only, # = under that specific post id
-        //
-        $this->filter_fields['post_parent'] = array(
-            'label'     => __( 'Parent ID' , 'searchwidget' )                                                               ,
-            'help_link' => $help_link ,
-            'help_text' => __( 'Enter a parent page ID to limit search results to children of this ID.' , 'searchwidget' )  ,
-            'var_type'  => 'integer'
-            );
 
         /**
          * Filter the list of fields that are processed by the widget.
